@@ -1,6 +1,5 @@
 import { ModuleWithProviders, NgModule } from '@angular/core'
 import { AngularTranslatePipe } from './angular-translate.pipe'
-import { AngularTranslateService } from './angular-translate.service'
 
 @NgModule({
   declarations: [AngularTranslatePipe],
@@ -11,7 +10,7 @@ export class AngularTranslateModule {
     return {
       ngModule: AngularTranslateModule,
       providers: [
-        { provide: AngularTranslateService, useValue: translations }
+        { provide: 'DICTIONARY', useValue: translations }
       ]
     }
   }

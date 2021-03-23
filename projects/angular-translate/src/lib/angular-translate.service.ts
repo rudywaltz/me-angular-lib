@@ -13,10 +13,11 @@ export class AngularTranslateService {
   translationsWhat: { [k: string]: string }
 
   constructor (
-    @Inject('translations') private readonly incomingTranslation: any
+    @Inject('DICTIONARY') private readonly incomingTranslation: any
   ) {
+    console.log('inject')
     this.translationsWhat = flattenObject(this.incomingTranslation)
-    console.log('newTranslate', this.translationsWhat)
+    console.log('newTranslate', this.incomingTranslation, this.translationsWhat)
     this.translate = this.translate.bind(this)
   }
 
@@ -25,12 +26,14 @@ export class AngularTranslateService {
   }
 
   hasTranslation (value: string): boolean {
-    return this.translationsWhat[value] !== '' || this.translationsWhat[value] !== undefined
+    return Boolean(this.translationsWhat[value])
   }
 
   translate (value: string, parameters: any[] = []): string {
+    console.log('translate', value, this.translationsWhat)
     const translated = (this.hasTranslation(value)) ? this.translationsWhat[value] : value
     try {
+      console.log('translated', translated, vsprintf(translated, parameters))
       return vsprintf(translated, parameters)
     } catch (e) {
       return translated.replace(/%s|%d/gi, '')
